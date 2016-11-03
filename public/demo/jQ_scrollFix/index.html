@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="renderer" content="webkit">
+<title>scrollFix.js 滚动固定在某个位置的jQuery插件</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<style>
+*{margin: 0; padding: 0; border: 0;}
+body{font-size: 14px/1.5 "Microsoft YaHei", Arial, sans-serif;}
+h1{font-size: 36px; text-align: center; line-height: 50px;}
+.clear{height: 1px; clear: both; font-size: 0;}
+.wrap{width:96%; margin:20px auto;}
+.cell{padding: 10px; margin-bottom: 20px; text-align: center; border: 1px solid #ccc; border-radius: 5px; box-shadow: 0 0 10px rgba(0,0,0,.2); box-sizing: border-box;}
+.header{height: 300px;}
+.footer{height: 500px;}
+.nav_placeholder{height: 52px; display: none;}
+.nav{display: block; width: 100%; padding: 0; font-size: 0;}
+.nav a{display: inline-block; width: 25%; line-height: 50px; font-size: 16px; color:#000; text-decoration: none; background-color: #efefef; border-right: 1px solid #ccc; box-sizing: border-box;}
+.nav a:hover{background-color: #ddd;}
+.primary{width: 100%; margin-left: -260px; float: left;}
+.primary .inner{margin-left: 260px;}
+.news, .events, .about{height: 500px;}
+.side{width: 240px; float: right;}
+aside{height: 300px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+	<header class="cell header" id="header"><h1>Header</h1></header>
+	<div class="cell nav_placeholder">导航占位符</div>
+	<nav class="cell nav" id="nav">
+		<a href="#header">Index</a>
+		<a href="#news">News</a>
+		<a href="#events">Events</a>
+		<a href="#about">About</a>
+	</nav>
+	<div class="main">
+		<div class="primary">
+			<div class="inner">
+				<section class="cell news" id="news">
+					<h1>News</h1>
+				</section>
+				<section class="cell events" id="events">
+					<h1>Events</h1>
+				</section>
+				<section class="cell about" id="about">
+					<h1>About</h1>
+				</section>
+			</div>
+		</div>
+		<div class="side">
+			<aside class="cell" id="side1">
+				aside1
+			</aside>
+			<aside class="cell" id="side2">
+				aside2
+			</aside>
+			<aside class="cell" id="side3">
+				aside3
+			</aside>
+		</div>
+		<div class="clear"></div>
+	</div>
+	<footer class="cell footer" id="footer">
+		<h1>Footer</h1>
+	</footer>
+</div>
+
+<script src="//cdn.bootcss.com/jquery/1.9.1/jquery.min.js"></script>
+<script src="./dist/jQuery.scrollFix.min.js"></script>
+<script>
+$(function() {
+	$('#nav').scrollFix({
+		endObj: '#about',
+		fixFn: function() {
+			$('.nav_placeholder').show();
+		},
+		endFn: function() {
+			$('.nav_placeholder').hide();
+		}
+	});
+
+	$('#side2').scrollFix({
+		top: 60,
+		bottom: 20,
+		startObj: '#side3',
+		position: 'bottom',
+		endObj: '#footer',
+		endPos: 20
+	});
+});
+</script>
+</body>
+</html>
