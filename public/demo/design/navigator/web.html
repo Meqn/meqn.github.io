@@ -16,8 +16,10 @@ a{transition: all .3s ease;}
 a:link,a:visited{text-decoration: none; color: rgba(0, 0, 0, .65);}
 a:hover,a:active{color: #1890ff;}
 .container{height: 100%; overflow: hidden;}
-.aside{float: left; width: 224px; height: 100%; background-color: #fff; box-shadow: 0 0 18px 0 #d4dee6;}
+.aside{float: left; position: relative; width: 224px; height: 100%; background-color: #fff; box-shadow: 0 0 18px 0 #d4dee6;}
 .aside-header{margin-bottom: .5em; font-size: 2.4em; text-align: center; line-height: 3.2em; background-color: #f1f5f8;}
+.copyright{position: absolute; left: 0; bottom: 1em; right: 0; box-sizing: border-box; padding-right: 1em; text-align: right; color: rgba(0, 0, 0, .2);}
+.copyright a{color: rgba(0, 0, 0, .2)}
 .main{overflow: auto; box-sizing: border-box; height: 100%; padding: 1.5em 2.4em; -webkit-overflow-scrolling:touch;}
 .menu a{display: block; box-sizing: border-box; position: relative; padding: .5em .5em .5em 4em; cursor: pointer;}
 .menu a.active{color: #1890ff;}
@@ -40,10 +42,12 @@ a:hover,a:active{color: #1890ff;}
   .list-item-card{width: 45%; margin-right: 5%;}
 }
 @media screen and (max-width: 768px) {
+  body{font-size: 14px;}
   .aside{display: none}
   .list-item-card{width: 45%; margin-right: 5%;}
 }
 @media screen and (max-width: 447px) {
+  body{font-size: 14px;}
   .aside{display: none}
   .list-item-card{width: 100%;}
 }
@@ -58,6 +62,7 @@ a:hover,a:active{color: #1890ff;}
     <div class="menu" id="menu">
       <!-- <a href="#see">必看</a> -->
     </div>
+    <div class="copyright">Power from <a href="https://www.seeseed.com/" rel="nofollow">seeseed</a></div>
   </aside>
   <main class="main">
     <div class="list" id="list">
@@ -79,6 +84,8 @@ a:hover,a:active{color: #1890ff;}
 
 <script src="./seeseed-data.js"></script>
 <script>
+const $menu = document.querySelector('#menu')
+const $list = document.querySelector('#list')
 let menu = ''
 let list = ''
 results.data.map((item, index) => {
@@ -102,8 +109,6 @@ results.data.map((item, index) => {
   list += `</div>`
 })
 
-const $menu = document.querySelector('#menu')
-const $list = document.querySelector('#list')
 window.addEventListener('DOMContentLoaded', function(event) {
   const hash = window.location.hash.substring(1)
   $menu.innerHTML = menu
@@ -123,7 +128,7 @@ $menu.addEventListener('click', function(event) {
   const $target = event.target
   if ($target.tagName.toLocaleLowerCase() === 'a') {
     const $children = this.children
-    for(let child of $children) {
+    for(const child of $children) {
       child.className = ''
     }
     $target.className = 'active'
