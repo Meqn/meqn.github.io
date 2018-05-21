@@ -18,7 +18,7 @@ a:hover,a:active{color: #1890ff;}
 .container{height: 100%; overflow: hidden;}
 .aside{float: left; width: 224px; height: 100%; background-color: #fff; box-shadow: 0 0 18px 0 #d4dee6;}
 .aside-header{margin-bottom: .5em; font-size: 2.4em; text-align: center; line-height: 3.2em; background-color: #f1f5f8;}
-.main{overflow: auto; box-sizing: border-box; height: 100%; padding: 1.5em 2.4em;}
+.main{overflow: auto; box-sizing: border-box; height: 100%; padding: 1.5em 2.4em; -webkit-overflow-scrolling:touch;}
 .menu a{display: block; box-sizing: border-box; position: relative; padding: .5em .5em .5em 4em; cursor: pointer;}
 .menu a.active{color: #1890ff;}
 .menu a.active::before{content: ""; position: absolute; top: .6em; left: 2.675em; bottom: .6em; width: 3px; background-color: #1890ff;}
@@ -81,10 +81,8 @@ a:hover,a:active{color: #1890ff;}
 <script>
 let menu = ''
 let list = ''
-console.log(results)
 results.data.map((item, index) => {
-  console.log(item.title_zh)
-  menu += `<a href="#card-${item.class_name}">${item.title_zh}</a>`
+  menu += `<a href="#card-${item.class_name}" class="abcd">${item.title_zh}</a>`
   list += `<div class="list-item" id="card-${item.class_name}">
         <header class="list-item-hd">
           <h2 class="title">${item.title_zh}</h2>
@@ -104,9 +102,33 @@ results.data.map((item, index) => {
   list += `</div>`
 })
 
-
-document.querySelector('#menu').innerHTML = menu
-document.querySelector('#list').innerHTML = list
+const $menu = document.querySelector('#menu')
+const $list = document.querySelector('#list')
+window.addEventListener('DOMContentLoaded', function(event) {
+  const hash = window.location.hash.substring(1)
+  $menu.innerHTML = menu
+  $list.innerHTML = list
+  const $children = $menu.children
+  if (hash) {
+    for (const child of $children) {
+      if (child.href.split('#')[1] === hash) {
+        child.className = 'active'
+      }
+    }
+  } else {
+    children[0].classList = 'active'
+  }
+})
+$menu.addEventListener('click', function(event) {
+  const $target = event.target
+  if ($target.tagName.toLocaleLowerCase() === 'a') {
+    const $children = this.children
+    for(let child of $children) {
+      child.className = ''
+    }
+    $target.className = 'active'
+  }
+})
 </script>
 </body>
 </html>
